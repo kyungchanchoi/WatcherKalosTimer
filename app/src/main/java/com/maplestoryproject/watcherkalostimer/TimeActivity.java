@@ -12,6 +12,7 @@ public class TimeActivity extends AppCompatActivity{
     // 화면에 보여지는 버튼
     private Button bind; // 바인드했을때 누르는거
     private Button authority; // 권능 썼을때
+    private Button next; // 즉사오면 다음 2분 30초 추가
 
     // 계산하는 시간
     private int currentMinute = 2; // 첫 즉사는 2분
@@ -40,8 +41,36 @@ public class TimeActivity extends AppCompatActivity{
         curTimeSec = findViewById(R.id.currentSecondTime);
         curTimeSec.setText(currentSecond + "초"); // 셋팅
 
+        next = findViewById(R.id.nextbutton);
         bind = findViewById(R.id.bindbutton);
         authority = findViewById(R.id.authoritybutton);
+
+        // next : 누르면 2분 30초 늘림
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentMinute += 2; // 2분 더함
+                currentSecond += 30; // 30초 더함
+
+                // 더했는데 초가 60이상이면
+                if (currentSecond >= 60 )
+                {
+                    currentMinute++; // 분 더하고
+                    currentSecond -= 60; // 초에서 60 빼고
+
+                    // 갱신
+                    curTimeMin.setText(currentMinute + "분");
+                    curTimeSec.setText(currentSecond + "초");
+                }
+                // 아니라면
+                else
+                {
+                    // 갱신
+                    curTimeMin.setText(currentMinute + "분");
+                    curTimeSec.setText(currentSecond + "초");
+                }
+            };
+        });
 
         // bind : 누르면 10초 늘림
         bind.setOnClickListener(new View.OnClickListener() {
@@ -51,7 +80,7 @@ public class TimeActivity extends AppCompatActivity{
                 currentSecond += 10; // 10초 더함
 
                 // 더했는데 초가 60이상이면
-                if (currentSecond > 60 )
+                if (currentSecond >= 60 )
                 {
                     currentMinute++; // 분 더하고
                     currentSecond -= 60; // 초에서 60 빼고
@@ -78,7 +107,7 @@ public class TimeActivity extends AppCompatActivity{
                 currentSecond += 50; // 10초 더함
 
                 // 더했는데 초가 60이상이면
-                if (currentSecond > 60 )
+                if (currentSecond >= 60 )
                 {
                     currentMinute++; // 분 더하고
                     currentSecond -= 60; // 초에서 60 빼고
